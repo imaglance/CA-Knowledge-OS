@@ -1,0 +1,2162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA Professional Learning Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-space-blue: #0B192F;
+            --moonlit-blue: #172A45;
+            --electric-blue: #00D4FF;
+            --nebula-pink: #FF6B9D;
+            --cosmic-purple: #C77DFF;
+            --solar-orange: #FFB86C;
+            --comet-cyan: #00F5FF;
+            --stardust-white: #F8F9FA;
+            --void-black: #000000;
+            --asteroid-gray: #6C757D;
+            --galaxy-green: #00FF88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--deep-space-blue) 0%, var(--moonlit-blue) 100%);
+            color: var(--stardust-white);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            background: rgba(11, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--electric-blue);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            color: var(--stardust-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--electric-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            border-color: transparent;
+            color: var(--deep-space-blue);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            color: var(--deep-space-blue);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(23, 42, 69, 0.5);
+            color: var(--stardust-white);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--electric-blue);
+        }
+
+        /* Module Cards */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.2);
+            border-color: var(--electric-blue);
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            color: var(--electric-blue);
+        }
+
+        .module-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-new {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--galaxy-green);
+        }
+
+        .status-updated {
+            background: rgba(255, 184, 108, 0.2);
+            color: var(--solar-orange);
+        }
+
+        .module-progress {
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--electric-blue), var(--comet-cyan));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .module-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--asteroid-gray);
+        }
+
+        /* News Cards */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.2);
+        }
+
+        .news-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--moonlit-blue), var(--deep-space-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--electric-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--asteroid-gray);
+        }
+
+        .news-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--electric-blue);
+        }
+
+        .news-explanation {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--stardust-white);
+        }
+
+        .news-technical {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--electric-blue);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .news-technical h4 {
+            color: var(--electric-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .news-impact {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tag-sky {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--electric-blue);
+        }
+
+        .tag-orange {
+            background: rgba(255, 184, 108, 0.2);
+            color: var(--solar-orange);
+        }
+
+        .tag-green {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--galaxy-green);
+        }
+
+        .tag-amber {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+
+        /* Amendments */
+        .amendments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .amendment-card {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .amendment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.2);
+        }
+
+        .amendment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .amendment-title {
+            font-size: 1.25rem;
+            color: var(--electric-blue);
+            flex: 1;
+        }
+
+        .amendment-date {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            color: var(--electric-blue);
+        }
+
+        .amendment-content {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--stardust-white);
+        }
+
+        /* Q&A */
+        .qa-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .question-card {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.15);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .question-title {
+            font-size: 1.1rem;
+            color: var(--electric-blue);
+            flex: 1;
+        }
+
+        .verification-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-verified {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--galaxy-green);
+        }
+
+        .badge-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+
+        .question-answer {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--stardust-white);
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--asteroid-gray);
+        }
+
+        /* Small Chatbot Pop-up */
+        .chatbot-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            border: none;
+            color: var(--deep-space-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: var(--moonlit-blue);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            color: var(--deep-space-blue);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: var(--deep-space-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .chatbot-message {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 15px;
+            line-height: 1.4;
+        }
+
+        .message-bot {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--stardust-white);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-user {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            color: var(--deep-space-blue);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input-container {
+            padding: 1rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(11, 25, 47, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            color: var(--stardust-white);
+            outline: none;
+        }
+
+        .chatbot-input::placeholder {
+            color: var(--asteroid-gray);
+        }
+
+        .chatbot-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            border: none;
+            color: var(--deep-space-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.1);
+        }
+
+        /* Module Detail Modal */
+        .module-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .module-modal.active {
+            display: block;
+        }
+
+        .module-modal-content {
+            background: var(--moonlit-blue);
+            max-width: 1200px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .module-modal-header {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            color: var(--deep-space-blue);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .module-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--deep-space-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .module-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .module-modal-body {
+            padding: 2rem;
+        }
+
+        .module-section {
+            margin-bottom: 3rem;
+        }
+
+        .module-section h3 {
+            color: var(--electric-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .bare-act {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bare-act h4 {
+            color: var(--comet-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .bare-act-text {
+            background: var(--deep-space-blue);
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .explanation {
+            background: rgba(255, 184, 108, 0.1);
+            border-left: 3px solid var(--solar-orange);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .practical-example {
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practical-example h4 {
+            color: var(--galaxy-green);
+            margin-bottom: 1rem;
+        }
+
+        .video-container {
+            background: var(--deep-space-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--moonlit-blue), var(--deep-space-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--electric-blue);
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .illustration {
+            width: 100%;
+            max-width: 600px;
+            margin: 1.5rem auto;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .illustration img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .steps-container {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-space-blue);
+            font-weight: bold;
+        }
+
+        .compliance-checklist {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .checklist-item i {
+            color: var(--galaxy-green);
+            margin-top: 0.25rem;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--asteroid-gray);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            color: var(--stardust-white);
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--asteroid-gray);
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            color: var(--stardust-white);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .filter-select option {
+            background: var(--moonlit-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            main {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .modules-grid,
+            .news-grid,
+            .amendments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                right: -10px;
+            }
+
+            .module-modal-content {
+                margin: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo i {
+                font-size: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--electric-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CA Professional Learning Platform
+            </div>
+            <nav>
+                <div class="nav-tab active" data-screen="modules">
+                    <i class="fas fa-book"></i> Modules
+                </div>
+                <div class="nav-tab" data-screen="amendments">
+                    <i class="fas fa-gavel"></i> Amendments
+                </div>
+                <div class="nav-tab" data-screen="news">
+                    <i class="fas fa-newspaper"></i> News Lab
+                </div>
+                <div class="nav-tab" data-screen="qa">
+                    <i class="fas fa-question-circle"></i> Q&A
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Modules Screen -->
+        <section class="screen active" id="modulesScreen">
+            <div class="section-header">
+                <h2 class="section-title">Learning Modules</h2>
+                <div class="section-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Module
+                    </button>
+                </div>
+            </div>
+
+            <div class="modules-grid">
+                <div class="module-card" data-module="gst">
+                    <div class="module-header">
+                        <h3 class="module-title">Goods and Services Tax (GST)</h3>
+                        <span class="module-status status-updated">Updated</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 24 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 15 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 75% Complete</span>
+                    </div>
+                </div>
+
+                <div class="module-card" data-module="income-tax">
+                    <div class="module-header">
+                        <h3 class="module-title">Direct Tax - Income Tax</h3>
+                        <span class="module-status status-new">New</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 32 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 20 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 45% Complete</span>
+                    </div>
+                </div>
+
+                <div class="module-card" data-module="mca">
+                    <div class="module-header">
+                        <h3 class="module-title">MCA/ROC Compliance</h3>
+                        <span class="module-status status-updated">Updated</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 18 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 12 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 60% Complete</span>
+                    </div>
+                </div>
+
+                <div class="module-card" data-module="fema">
+                    <div class="module-header">
+                        <h3 class="module-title">FEMA & RBI Regulations</h3>
+                        <span class="module-status status-new">New</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 20 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 14 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 30% Complete</span>
+                    </div>
+                </div>
+
+                <div class="module-card" data-module="sebi">
+                    <div class="module-header">
+                        <h3 class="module-title">SEBI & Capital Markets</h3>
+                        <span class="module-status status-updated">Updated</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 55%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 22 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 16 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 55% Complete</span>
+                    </div>
+                </div>
+
+                <div class="module-card" data-module="audit">
+                    <div class="module-header">
+                        <h3 class="module-title">Audit & Assurance</h3>
+                        <span class="module-status status-new">New</span>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <div class="module-stats">
+                        <span><i class="fas fa-video"></i> 28 Videos</span>
+                        <span><i class="fas fa-file-alt"></i> 18 Documents</span>
+                        <span><i class="fas fa-check-circle"></i> 40% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Amendments Screen -->
+        <section class="screen" id="amendmentsScreen">
+            <div class="section-header">
+                <h2 class="section-title">Latest Amendments</h2>
+                <div class="section-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-bell"></i> Subscribe to Updates
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search amendments...">
+                </div>
+                <select class="filter-select">
+                    <option>All Categories</option>
+                    <option>GST</option>
+                    <option>Income Tax</option>
+                    <option>MCA</option>
+                    <option>FEMA</option>
+                    <option>SEBI</option>
+                </select>
+                <select class="filter-select">
+                    <option>Last 30 Days</option>
+                    <option>Last 3 Months</option>
+                    <option>Last 6 Months</option>
+                    <option>Last Year</option>
+                </select>
+            </div>
+
+            <div class="amendments-grid">
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">GST Rate Changes - Finance Act 2024</h3>
+                        <span class="amendment-date">Dec 15, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        GST Council has approved rate rationalization for 32 items. Unbranded food items reduced from 12% to 5%. Cancer medicines exempted. Hospital rooms above ₹5000/day taxed at 5%. Director's fees to non-executive directors taxed at 18%. Effective from January 1, 2025.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">GST</span>
+                        <span class="tag tag-orange">Rate Changes</span>
+                        <span class="tag tag-green">Finance Act</span>
+                    </div>
+                </div>
+
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">Income Tax - New Tax Regime Changes</h3>
+                        <span class="amendment-date">Dec 10, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        Standard deduction increased to ₹75,000 under new regime. Basic exemption limit raised to ₹3 lakh. New tax slabs introduced. Rebate under Section 87A increased to ₹25,000. Surcharge rates rationalized. Effective from AY 2025-26.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">Income Tax</span>
+                        <span class="tag tag-orange">New Regime</span>
+                        <span class="tag tag-amber">Budget 2024</span>
+                    </div>
+                </div>
+
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">Companies Act - CSR Amendments</h3>
+                        <span class="amendment-date">Dec 5, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        CSR spending threshold reduced to ₹5 crore turnover. Impact assessment made mandatory for projects above ₹1 crore. Administrative expenses capped at 5% of CSR spend. Unspent CSR to be transferred to Special Fund.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">MCA</span>
+                        <span class="tag tag-orange">CSR</span>
+                        <span class="tag tag-green">Companies Act</span>
+                    </div>
+                </div>
+
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">FEMA Changes - ODI and FDI Norms</h3>
+                        <span class="amendment-date">Dec 1, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        RBI has relaxed Overseas Direct Investment (ODI) norms. The automatic route limit has been increased to $1 billion. FDI in digital media has been liberalized up to 74% under automatic route. New provisions for greenfield investments have been introduced.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">FEMA</span>
+                        <span class="tag tag-orange">ODI</span>
+                        <span class="tag tag-amber">FDI</span>
+                    </div>
+                </div>
+
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">TDS/TCS Rate Changes - New Sections</h3>
+                        <span class="amendment-date">Nov 28, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        Finance Act 2024 has introduced new TDS provisions under Section 194R for benefits or perquisites. TCS rate on foreign remittances under LRS has been increased to 20%. New Section 206CCA for higher TDS for non-filers of income tax returns has been amended.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">TDS/TCS</span>
+                        <span class="tag tag-orange">Section 194R</span>
+                        <span class="tag tag-green">LRS</span>
+                    </div>
+                </div>
+
+                <div class="amendment-card">
+                    <div class="amendment-header">
+                        <h3 class="amendment-title">SEBI - Insider Trading Regulations</h3>
+                        <span class="amendment-date">Nov 25, 2024</span>
+                    </div>
+                    <div class="amendment-content">
+                        SEBI has introduced stricter disclosure requirements for designated persons. Pre-disclosure of trading plans made mandatory. Real-time monitoring using AI-based surveillance. Penalty provisions increased up to 3 times profit made. Cooling-off period of 6 months after resignation.
+                    </div>
+                    <div class="amendment-impact">
+                        <span class="tag tag-sky">SEBI</span>
+                        <span class="tag tag-orange">PIT</span>
+                        <span class="tag tag-amber">Compliance</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Lab Screen -->
+        <section class="screen" id="newsScreen">
+            <div class="section-header">
+                <h2 class="section-title">News Lab - Latest Legal Updates</h2>
+                <div class="section-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-rss"></i> Subscribe to Feed
+                    </button>
+                </div>
+            </div>
+
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/gstcouncil/400/200.jpg" alt="GST Council Meeting">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Times Now</span>
+                            <span>•</span>
+                            <span>2 hours ago</span>
+                        </div>
+                        <h3 class="news-title">GST Council Approves Major Rate Rationalization</h3>
+                        <div class="news-explanation">
+                            In a landmark decision, the GST Council has approved significant changes to tax rates on essential items. This move aims to provide relief to common consumers and correct tax inversion issues.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>Key Changes:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Unbranded food items: 12% → 5%</li>
+                                <li>Cancer medicines: Exempted from GST</li>
+                                <li>Hospital rooms (>₹5000/day): 5% GST</li>
+                                <li>Director's fees (Non-executive): 18% GST</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Effective Date:</strong> January 1, 2025</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">GST</span>
+                            <span class="tag tag-orange">Rate Changes</span>
+                            <span class="tag tag-green">Consumer Relief</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/incometax/400/200.jpg" alt="Income Tax Changes">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>NDTV</span>
+                            <span>•</span>
+                            <span>5 hours ago</span>
+                        </div>
+                        <h3 class="news-title">New Tax Regime Made More Attractive</h3>
+                        <div class="news-explanation">
+                            The government has announced major changes to the new tax regime, making it more beneficial for taxpayers. Standard deduction has been increased, and tax slabs have been restructured.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>Major Changes:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Standard deduction: ₹50,000 → ₹75,000</li>
+                                <li>Basic exemption: ₹2.5 lakh → ₹3 lakh</li>
+                                <li>Section 87A rebate: Up to ₹25,000</li>
+                                <li>Surcharge capped at 25%</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Impact:</strong> Significant tax savings for middle-class taxpayers</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">Income Tax</span>
+                            <span class="tag tag-orange">New Regime</span>
+                            <span class="tag tag-amber">Tax Savings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/rbi/400/200.jpg" alt="RBI Policy">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Economic Times</span>
+                            <span>•</span>
+                            <span>8 hours ago</span>
+                        </div>
+                        <h3 class="news-title">RBI Eases ECB Norms to Attract Foreign Capital</h3>
+                        <div class="news-explanation">
+                            The Reserve Bank of India has announced a new framework for External Commercial Borrowings, simplifying procedures and increasing cost ceilings to attract more foreign capital.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>Key Features:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>All-in-cost ceiling increased by 100 bps</li>
+                                <li>Green channel for ECBs > $500 million</li>
+                                <li>Simplified documentation for automatic route</li>
+                                <li>Rupee-denominated ECBs permitted</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Objective:</strong> Make foreign borrowing more accessible and cost-effective</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">RBI</span>
+                            <span class="tag tag-orange">ECB</span>
+                            <span class="tag tag-green">Foreign Capital</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/sebi/400/200.jpg" alt="SEBI Regulations">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Business Standard</span>
+                            <span>•</span>
+                            <span>1 day ago</span>
+                        </div>
+                        <h3 class="news-title">SEBI Strengthens Insider Trading Framework</h3>
+                        <div class="news-explanation">
+                            SEBI has introduced comprehensive reforms to prevent insider trading, including mandatory pre-disclosure of trading plans and enhanced surveillance mechanisms using AI technology.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>New Requirements:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Pre-disclosure of trading plans mandatory</li>
+                                <li>AI-based real-time monitoring</li>
+                                <li>Penalty: Up to 3x profit or loss avoided</li>
+                                <li>6-month cooling-off post-resignation</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Compliance:</strong> Fast-track settlement for certain violations</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">SEBI</span>
+                            <span class="tag tag-orange">PIT Regulations</span>
+                            <span class="tag tag-amber">Market Integrity</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/mca/400/200.jpg" alt="MCA Compliance">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>The Hindu Business Line</span>
+                            <span>•</span>
+                            <span>2 days ago</span>
+                        </div>
+                        <h3 class="news-title">MCA Launches Fast-Track Company Incorporation</h3>
+                        <div class="news-explanation">
+                            The Ministry of Corporate Affairs has revolutionized the company incorporation process with AI-powered verification and integrated services, reducing registration time to just one day.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>Key Features:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>AI-powered document verification</li>
+                                <li>Integrated DIN application</li>
+                                <li>Instant PAN & TAN allotment</li>
+                                <li>Bank account integration</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Timeline:</strong> 1-day incorporation for eligible cases</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">MCA</span>
+                            <span class="tag tag-orange">Incorporation</span>
+                            <span class="tag tag-green">Ease of Business</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://picsum.photos/seed/supreme/400/200.jpg" alt="Supreme Court">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <i class="fas fa-newspaper"></i>
+                            <span>India Today</span>
+                            <span>•</span>
+                            <span>3 days ago</span>
+                        </div>
+                        <h3 class="news-title">Supreme Court Clarifies Tax Residency Rules</h3>
+                        <div class="news-explanation">
+                            The Supreme Court has delivered a landmark judgment on tax residency criteria, emphasizing physical presence as the primary test and providing much-needed clarity for NRIs.
+                        </div>
+                        <div class="news-technical">
+                            <h4>Technical Breakdown:</h4>
+                            <p><strong>Key Clarifications:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Physical presence is primary test</li>
+                                <li>Intention is secondary consideration</li>
+                                <li>182 days rule strictly applicable</li>
+                                <li>60 days + 365 days criteria clarified</li>
+                            </ul>
+                            <p style="margin-top: 0.5rem;"><strong>Impact:</strong> Significant implications for NRI tax planning</p>
+                        </div>
+                        <div class="news-impact">
+                            <span class="tag tag-sky">Supreme Court</span>
+                            <span class="tag tag-orange">Tax Residency</span>
+                            <span class="tag tag-amber">NRI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Q&A Screen -->
+        <section class="screen" id="qaScreen">
+            <div class="section-header">
+                <h2 class="section-title">AI Doubt Desk</h2>
+                <div class="section-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-question"></i> Ask a Question
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search questions...">
+                </div>
+                <select class="filter-select">
+                    <option>All Modules</option>
+                    <option>GST</option>
+                    <option>MCA/ROC</option>
+                    <option>Direct Tax</option>
+                    <option>FEMA & RBI</option>
+                    <option>SEBI</option>
+                    <option>CSR & ESG</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Verified</option>
+                    <option>Pending Review</option>
+                    <option>Answered</option>
+                </select>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-card">
+                    <div class="question-header">
+                        <h3 class="question-title">Can ITC be claimed on expenses related to CSR activities?</h3>
+                        <span class="verification-badge badge-verified">Verified</span>
+                    </div>
+                    <div class="question-answer">
+                        As per Section 17(5) of CGST Act, input tax credit is not available for goods or services received by a taxable person for the construction of an immovable property on his own account. However, for other CSR activities, ITC may be available if they are in the course or furtherance of business and not specifically blocked under Section 17(5). The key consideration is whether the expense is for business purposes or purely for CSR compliance.
+                    </div>
+                    <div class="question-meta">
+                        <div>
+                            <span class="tag tag-sky">GST</span>
+                            <span class="tag tag-orange">ITC</span>
+                            <span class="tag tag-amber">CSR</span>
+                        </div>
+                        <div>
+                            Asked 2 days ago by Rahul S. • Answered by AI Expert
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <h3 class="question-title">What is the time limit for issuing a credit note under GST?</h3>
+                        <span class="verification-badge badge-verified">Verified</span>
+                    </div>
+                    <div class="question-answer">
+                        A credit note can be issued before the filing of GSTR-9 for the relevant financial year or before the due date for filing GSTR-9 for that financial year, whichever is earlier. However, it's advisable to issue credit notes as soon as the error is identified to avoid compliance issues. The credit note must be reported in GSTR-1 for the month in which it is issued.
+                    </div>
+                    <div class="question-meta">
+                        <div>
+                            <span class="tag tag-sky">GST</span>
+                            <span class="tag tag-orange">Credit Note</span>
+                        </div>
+                        <div>
+                            Asked 5 days ago by Priya M. • Answered by AI Expert
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <h3 class="question-title">How to handle GST on export of services?</h3>
+                        <span class="verification-badge badge-pending">Needs Review</span>
+                    </div>
+                    <div class="question-answer">
+                        Export of services is treated as zero-rated supply. The exporter can either export services under payment of IGST and claim refund or export under bond/LUT without payment of IGST. The choice depends on cash flow considerations and refund processing time. To claim export of services, the payment must be received in convertible foreign exchange.
+                    </div>
+                    <div class="question-meta">
+                        <div>
+                            <span class="tag tag-sky">GST</span>
+                            <span class="tag tag-orange">Export</span>
+                        </div>
+                        <div>
+                            Asked 1 week ago by Amit K. • Pending Expert Review
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <h3 class="question-title">What are the compliance requirements for OPC under Companies Act?</h3>
+                        <span class="verification-badge badge-verified">Verified</span>
+                    </div>
+                    <div class="question-answer">
+                        One Person Company (OPC) has relaxed compliance requirements compared to private companies. OPC need not hold Annual General Meeting. However, it must file financial statements and annual return within the prescribed time. The Director of OPC must file a consent in form INC-3 at the time of incorporation. OPC must be converted into private or public company if paid-up share capital exceeds ₹50 lakh or turnover exceeds ₹2 crore.
+                    </div>
+                    <div class="question-meta">
+                        <div>
+                            <span class="tag tag-sky">MCA</span>
+                            <span class="tag tag-orange">OPC</span>
+                            <span class="tag tag-green">Compliance</span>
+                        </div>
+                        <div>
+                            Asked 3 days ago by Neha P. • Answered by AI Expert
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <h3 class="question-title">Is TDS applicable on salary paid to NRI employee?</h3>
+                        <span class="verification-badge badge-verified">Verified</span>
+                    </div>
+                    <div class="question-answer">
+                        TDS under Section 192 is applicable on salary paid to NRI employee if the salary is chargeable to tax in India. The key factor is whether the salary is earned in India or for services rendered in India. If the NRI employee is a tax resident of India (stays in India for 182 days or more in the financial year), the entire salary is taxable in India and TDS applies accordingly.
+                    </div>
+                    <div class="question-meta">
+                        <div>
+                            <span class="tag tag-sky">TDS</span>
+                            <span class="tag tag-orange">NRI</span>
+                            <span class="tag tag-amber">Salary</span>
+                        </div>
+                        <div>
+                            Asked 4 days ago by Karan S. • Answered by AI Expert
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Small Chatbot Pop-up -->
+    <div class="chatbot-popup">
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <span><i class="fas fa-robot"></i> AI Doubt Desk</span>
+                <button class="chatbot-close" id="chatbotClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatMessages">
+                <div class="chatbot-message message-bot">
+                    Hi! I'm your AI assistant. How can I help you with your CA studies today?
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatInput" placeholder="Type your question...">
+                <button class="chatbot-send" id="chatSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <button class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <!-- Module Detail Modal -->
+    <div class="module-modal" id="moduleModal">
+        <div class="module-modal-content">
+            <div class="module-modal-header">
+                <h2 id="modalModuleTitle">Module Title</h2>
+                <button class="module-modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="module-modal-body" id="modalModuleContent">
+                <!-- Module content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const screens = document.querySelectorAll('.screen');
+        const navTabs = document.querySelectorAll('.nav-tab');
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatMessages = document.getElementById('chatMessages');
+        const moduleModal = document.getElementById('moduleModal');
+        const modalClose = document.getElementById('modalClose');
+        const moduleCards = document.querySelectorAll('.module-card');
+
+        // Module content data
+        const moduleContent = {
+            gst: {
+                title: "Goods and Services Tax (GST) - Complete Guide",
+                sections: [
+                    {
+                        title: "Introduction to GST",
+                        content: `
+                            <div class="bare-act">
+                                <h4>Constitutional Basis</h4>
+                                <div class="bare-act-text">
+                                    Article 246A of the Constitution:
+                                    "Parliament may make laws with respect to any matter for any part of the territory of India not included in a State, 
+                                    notwithstanding that such matter is one of the matters enumerated in the State List."
+                                </div>
+                                <div class="explanation">
+                                    <strong>Simple Explanation:</strong> This article gives Parliament the power to make laws for GST throughout India, 
+                                    even for matters that are normally under state control. This is the constitutional foundation for implementing GST.
+                                </div>
+                            </div>
+                            
+                            <div class="practical-example">
+                                <h4>Real-World Example</h4>
+                                <p>Before GST, a manufacturer had to pay multiple taxes:</p>
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Excise Duty: 12.5%</li>
+                                    <li>VAT/CST: 12.5-15%</li>
+                                    <li>Entry Tax: 1-5%</li>
+                                    <li>Octroi: Varies by state</li>
+                                </ul>
+                                <p style="margin-top: 1rem;"><strong>With GST:</strong> Single tax rate (e.g., 18%) with input tax credit available at each stage.</p>
+                            </div>
+
+                            <div class="video-container">
+                                <h4>Video: GST Fundamentals</h4>
+                                <div class="video-placeholder">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <p style="margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-info-circle"></i> Video generated using LLM technology
+                                </p>
+                            </div>
+
+                            <div class="illustration">
+                                <img src="https://image.z.ai/illustration/gst-flow" alt="GST Flow Diagram">
+                                <p style="text-align: center; margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-image"></i> Interactive illustration created with Image.Z.AI
+                                </p>
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Registration Process",
+                        content: `
+                            <div class="bare-act">
+                                <h4>Section 22 of CGST Act, 2017</h4>
+                                <div class="bare-act-text">
+                                    "Every supplier shall be liable to be registered under this Act in the State or Union territory, 
+                                    from where he makes a taxable supply of goods or services or both, if his aggregate turnover in a 
+                                    financial year exceeds twenty lakh rupees."
+                                </div>
+                                <div class="explanation">
+                                    <strong>Technical Terms Explained:</strong><br>
+                                    • <strong>Aggregate Turnover:</strong> Total value of all taxable and non-taxable supplies, 
+                                    exempt supplies and exports of goods and/or services<br>
+                                    • <strong>Taxable Supply:</strong> Supply of goods or services which is liable to tax under GST<br>
+                                    • <strong>Financial Year:</strong> Period from 1st April to 31st March
+                                </div>
+                            </div>
+
+                            <div class="steps-container">
+                                <h4>Step-by-Step Registration Process</h4>
+                                <div class="step">
+                                    <strong>Visit GST Portal</strong><br>
+                                    Go to www.gst.gov.in and click on "Register Now" under New Registration
+                                </div>
+                                <div class="step">
+                                    <strong>Fill Part-A of REG-01</strong><br>
+                                    Enter PAN, State, and Email/Mobile. OTP verification required
+                                </div>
+                                <div class="step">
+                                    <strong>Receive Temporary Reference Number (TRN)</strong><br>
+                                    TRN is generated and sent to registered email/mobile
+                                </div>
+                                <div class="step">
+                                    <strong>Complete Part-B of REG-01</strong><br>
+                                    Fill business details, promoter details, and bank account information
+                                </div>
+                                <div class="step">
+                                    <strong>Upload Documents</strong><br>
+                                    Upload photographs, PAN, constitution documents, and proof of principal place of business
+                                </div>
+                                <div class="step">
+                                    <strong>Submit Application</strong><br>
+                                    Submit with DSC or EVC. Application is verified by GST officer
+                                </div>
+                                <div class="step">
+                                    <strong>Receive GSTIN</strong><br>
+                                    GST Certificate is issued with 15-digit GSTIN
+                                </div>
+                            </div>
+
+                            <div class="compliance-checklist">
+                                <h4>Documents Required for Registration</h4>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>PAN of the Business</strong><br>
+                                        <small>Mandatory for all registrations</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Proof of Constitution</strong><br>
+                                        <small>Partnership deed, Certificate of Incorporation, etc.</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Address Proof</strong><br>
+                                        <small>Electricity bill, rent agreement, property tax receipt</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Bank Account Details</strong><br>
+                                        <small>Bank account number, IFSC code, cancelled cheque</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Authorised Signatory Details</strong><br>
+                                        <small>Photo, PAN, and Aadhaar of authorized person</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="video-container">
+                                <h4>Video: GST Registration Walkthrough</h4>
+                                <div class="video-placeholder">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <p style="margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-info-circle"></i> Practical demonstration of GST registration process
+                                </p>
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Return Filing & Compliance",
+                        content: `
+                            <div class="bare-act">
+                                <h4>Section 39 of CGST Act, 2017</h4>
+                                <div class="bare-act-text">
+                                    "Every registered person, other than an input service distributor, a person paying tax under section 10 
+                                    or section 51 or a person liable to deduct tax under section 37, shall furnish, in such form and manner 
+                                    as may be prescribed, a return for every tax period."
+                                </div>
+                                <div class="explanation">
+                                    <strong>Key Points:</strong><br>
+                                    • <strong>Tax Period:</strong> Monthly for regular taxpayers, quarterly for composition dealers<br>
+                                    • <strong>GSTR-1:</strong> Details of outward supplies (sales)<br>
+                                    • <strong>GSTR-3B:</strong> Summary of input and output tax<br>
+                                    • <strong>Due Dates:</strong> GSTR-1 by 11th of next month, GSTR-3B by 20th of next month
+                                </div>
+                            </div>
+
+                            <div class="practical-example">
+                                <h4>Monthly Compliance Calendar</h4>
+                                <div style="background: var(--deep-space-blue); padding: 1rem; border-radius: 5px; margin-top: 1rem;">
+                                    <p><strong>Example for January 2025:</strong></p>
+                                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Feb 11: File GSTR-1 (January sales)</li>
+                                        <li>Feb 20: File GSTR-3B (January summary)</li>
+                                        <li>Feb 28: Pay GST liability (if any)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="illustration">
+                                <img src="https://image.z.ai/illustration/gst-return-flow" alt="GST Return Process">
+                                <p style="text-align: center; margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-image"></i> GST return filing process flowchart
+                                </p>
+                            </div>
+
+                            <div class="compliance-checklist">
+                                <h4>Pre-Filing Checklist</h4>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Reconcile Sales Data</strong><br>
+                                        <small>Match books of accounts with GSTR-1</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Verify ITC Claims</strong><br>
+                                        <small>Ensure all eligible ITC from GSTR-2A is claimed</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Check Tax Liability</strong><br>
+                                        <small>Calculate net tax payable after ITC adjustment</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Maintain Sufficient Balance</strong><br>
+                                        <small>Ensure cash balance for tax payment</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ]
+            },
+            incomeTax: {
+                title: "Direct Tax - Income Tax Complete Guide",
+                sections: [
+                    {
+                        title: "Income Tax Basics & Residential Status",
+                        content: `
+                            <div class="bare-act">
+                                <h4>Section 6 of Income Tax Act, 1961</h4>
+                                <div class="bare-act-text">
+                                    "An individual is said to be resident in India in any previous year, if he—<br>
+                                    (a) is in India in that year for a period or periods amounting in all to one hundred and eighty-two days 
+                                    or more; or<br>
+                                    (b) having within the four years preceding that year been in India for a period or periods 
+                                    amounting in all to three hundred and sixty-five days or more, is in India for sixty days or more 
+                                    in that year."
+                                </div>
+                                <div class="explanation">
+                                    <strong>Simple Explanation:</strong><br>
+                                    You are a resident if either:<br>
+                                    • Stay in India for 182+ days in the financial year, OR<br>
+                                    • Stay in India for 60+ days AND 365+ days in the last 4 years<br>
+                                    <br>
+                                    <strong>Exceptions to 60-day rule:</strong><br>
+                                    • Indian citizens leaving India for employment abroad<br>
+                                    • Indian citizens leaving India as crew member<br>
+                                    • Indian citizens or persons of Indian origin visiting India
+                                </div>
+                            </div>
+
+                            <div class="practical-example">
+                                <h4>Real-Life Scenarios</h4>
+                                <div style="background: var(--deep-space-blue); padding: 1rem; border-radius: 5px; margin-top: 1rem;">
+                                    <p><strong>Scenario 1: Ramesh, Software Engineer</strong></p>
+                                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>FY 2024-25: In India from Jan 1 to Mar 31 (90 days)</li>
+                                        <li>Previous 4 years: 2020-21 (365 days), 2021-22 (200 days), 2022-23 (150 days), 2023-24 (100 days)</li>
+                                        <li>Total in last 4 years: 815 days</li>
+                                        <li><strong>Status:</strong> Resident (90 days < 182, but 60+ days AND 365+ days in last 4 years)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="video-container">
+                                <h4>Video: Understanding Residential Status</h4>
+                                <div class="video-placeholder">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <p style="margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-info-circle"></i> AI-generated video explaining residential status
+                                </p>
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Income Heads & Computation",
+                        content: `
+                            <div class="bare-act">
+                                <h4>Section 14 of Income Tax Act, 1961</h4>
+                                <div class="bare-act-text">
+                                    "For the purposes of charge of income-tax and for computation of total income, all income shall be 
+                                    classified under the following heads of income—<br>
+                                    (A) Salaries;<br>
+                                    (B) Income from House Property;<br>
+                                    (C) Profits and Gains of Business or Profession;<br>
+                                    (D) Capital Gains;<br>
+                                    (E) Income from Other Sources."
+                                </div>
+                                <div class="explanation">
+                                    <strong>Detailed Breakdown:</strong><br>
+                                    • <strong>Salaries:</strong> All remuneration received by an employee from employer<br>
+                                    • <strong>House Property:</strong> Income from renting out property (deemed or actual)<br>
+                                    • <strong>Business/Profession:</strong> Income from carrying on business or profession<br>
+                                    • <strong>Capital Gains:</strong> Profit from sale of capital assets<br>
+                                    • <strong>Other Sources:</strong> Residual head for incomes not covered above
+                                </div>
+                            </div>
+
+                            <div class="illustration">
+                                <img src="https://image.z.ai/illustration/income-heads" alt="Five Heads of Income">
+                                <p style="text-align: center; margin-top: 0.5rem; color: var(--asteroid-gray);">
+                                    <i class="fas fa-image"></i> Visual representation of five income heads
+                                </p>
+                            </div>
+
+                            <div class="compliance-checklist">
+                                <h4>Documents Required for Each Head</h4>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Salary</strong><br>
+                                        <small>Form 16, salary slips, proof of other perquisites</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>House Property</strong><br>
+                                        <small>Rent agreements, municipal tax receipts, interest certificate</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Business/Profession</strong><br>
+                                        <small>Balance sheet, P&L account, tax audit report (if applicable)</small>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Capital Gains</strong><br>
+                                        <small>Sale/purchase deeds, broker notes, indexation calculation</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ]
+            }
+        };
+
+        // Navigation functionality
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetScreen = tab.getAttribute('data-screen');
+                
+                // Update active tab
+                navTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show target screen
+                screens.forEach(screen => screen.classList.remove('active'));
+                
+                switch(targetScreen) {
+                    case 'modules':
+                        document.getElementById('modulesScreen').classList.add('active');
+                        break;
+                    case 'amendments':
+                        document.getElementById('amendmentsScreen').classList.add('active');
+                        break;
+                    case 'news':
+                        document.getElementById('newsScreen').classList.add('active');
+                        break;
+                    case 'qa':
+                        document.getElementById('qaScreen').classList.add('active');
+                        break;
+                }
+            });
+        });
+
+        // Chatbot functionality
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('active');
+            if (chatbotWindow.classList.contains('active')) {
+                chatInput.focus();
+            }
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+
+        const sendMessage = () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chatbot-message message-user';
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'chatbot-message message-bot';
+                typingIndicator.innerHTML = '<span class="loading"></span> Typing...';
+                chatMessages.appendChild(typingIndicator);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate bot response
+                setTimeout(() => {
+                    // Remove typing indicator
+                    chatMessages.removeChild(typingIndicator);
+                    
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'chatbot-message message-bot';
+                    
+                    // Generate contextual response
+                    let response = '';
+                    const lowerMessage = message.toLowerCase();
+                    
+                    if (lowerMessage.includes('gst') || lowerMessage.includes('tax')) {
+                        response = `Based on your question about "${message}", I'd like to clarify that under the GST regime, the key aspects to consider are: 1) Taxability of the supply, 2) Applicable rate, 3) Place of Supply, 4) Input Tax Credit eligibility. For specific guidance, could you provide more details about the transaction?`;
+                    } else if (lowerMessage.includes('itr') || lowerMessage.includes('income tax')) {
+                        response = `Regarding your query on "${message}", under the Income Tax Act, the important factors are: 1) Tax residency status, 2) Total income computation, 3) Applicable deductions, 4) Tax regime selection. Would you like me to elaborate on any specific aspect?`;
+                    } else if (lowerMessage.includes('mca') || lowerMessage.includes('company')) {
+                        response = `For your question about "${message}", under the Companies Act and MCA regulations, key compliance areas include: 1) Annual filings, 2) Board meetings, 3) Statutory registers, 4) Event-based compliance. What specific aspect would you like to know more about?`;
+                    } else {
+                        response = `Thank you for your question about "${message}". Based on the latest regulations and amendments, I suggest reviewing the relevant provisions in the applicable Act. For more specific guidance, please provide additional details about your query or the specific section you're referring to.`;
+                    }
+                    
+                    botMessage.textContent = response;
+                    chatMessages.appendChild(botMessage);
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1500);
+            }
+        };
+
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Module modal functionality
+        moduleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const moduleId = card.getAttribute('data-module');
+                const module = moduleContent[moduleId];
+                
+                if (module) {
+                    document.getElementById('modalModuleTitle').textContent = module.title;
+                    
+                    const contentHtml = module.sections.map(section => `
+                        <div class="module-section">
+                            <h3>${section.title}</h3>
+                            ${section.content}
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('modalModuleContent').innerHTML = contentHtml;
+                    moduleModal.classList.add('active');
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            moduleModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === moduleModal) {
+                moduleModal.classList.remove('active');
+            }
+        });
+
+        // Search functionality
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const container = this.closest('.screen');
+                const cards = container.querySelectorAll('.module-card, .amendment-card, .news-card, .question-card');
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const filterValue = this.value;
+                console.log('Filter selected:', filterValue);
+                // Implement filter logic based on selection
+            });
+        });
+
+        // Initialize progress bars animation
+        const progressBars = document.querySelectorAll('.progress-fill');
+        const animateProgressBars = () => {
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        };
+
+        // Call animation on page load
+        window.addEventListener('load', animateProgressBars);
+
+        // Add click handlers for video placeholders
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.video-placeholder')) {
+                alert('Video would play here. This feature would integrate with LLM-generated video content platform.');
+            }
+        });
+
+        // Add click handlers for illustrations
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.illustration img')) {
+                alert('Interactive illustration would expand here. This feature would integrate with Image.Z.AI for dynamic visualizations.');
+            }
+        });
+    </script>
+</body>
+</html>
