@@ -782,61 +782,85 @@
             }
         }
 
+        // Save session and redirect to modules page
+        function saveSessionAndRedirect(name, email, remember) {
+            const userData = { name: name, email: email, isLoggedIn: true };
+            const storage = remember ? localStorage : sessionStorage;
+            storage.setItem('caKnowledgeOS_user', JSON.stringify(userData));
+            window.location.href = 'modules.html';
+        }
+
+        // If already logged in, skip the login page
+        (function checkExistingSession() {
+            const stored = localStorage.getItem('caKnowledgeOS_user') || sessionStorage.getItem('caKnowledgeOS_user');
+            if (stored) {
+                try {
+                    const user = JSON.parse(stored);
+                    if (user && user.isLoggedIn) {
+                        window.location.href = 'modules.html';
+                    }
+                } catch (e) { /* invalid data, stay on login */ }
+            }
+        })();
+
         // Sign In form submission
         signInForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const formData = {
-                email: document.getElementById('signInEmail').value,
-                password: document.getElementById('signInPassword').value,
-                remember: document.getElementById('rememberMe').checked
-            };
-            
-            console.log('Sign In data:', formData);
-            showToast('Successfully signed in!');
-            
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            if (!email || !password) {
+                showToast('Please fill in all fields.');
+                return;
+            }
+
+            showToast('Signing in...');
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // Derive a display name from the email (before @)
+            const name = email.split('@')[0];
+            saveSessionAndRedirect(name, email, remember);
         });
 
         // Sign Up form submission
         signUpForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const password = document.getElementById('signUpPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            
+
             if (password !== confirmPassword) {
                 showToast('Passwords do not match!');
                 return;
             }
-            
-            const formData = {
-                name: document.getElementById('signUpName').value,
-                email: document.getElementById('signUpEmail').value,
-                password: password
-            };
-            
-            console.log('Sign Up data:', formData);
-            showToast('Account created successfully!');
-            
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Auto switch to sign in after successful registration
-            setTimeout(() => {
-                showSignIn();
-            }, 2000);
+
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+
+            if (!name || !email || !password) {
+                showToast('Please fill in all fields.');
+                return;
+            }
+
+            showToast('Creating your account...');
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // After sign-up, log the user in immediately (remember by default)
+            saveSessionAndRedirect(name, email, true);
         });
 
         // Social login handlers
         document.querySelectorAll('.social-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 e.preventDefault();
                 const provider = btn.dataset.provider;
                 const action = isSignIn ? 'Signing in' : 'Signing up';
                 showToast(`${action} with ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`);
-                console.log(`${action} with ${provider}`);
+                await new Promise(resolve => setTimeout(resolve, 800));
+                // Use a generic display name for social logins
+                saveSessionAndRedirect(provider.charAt(0).toUpperCase() + provider.slice(1) + ' User', provider + '@social.login', true);
             });
         });
 
