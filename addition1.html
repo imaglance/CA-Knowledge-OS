@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA Resources & Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-space-blue: #0B192F;
+            --moonlit-blue: #172A45;
+            --electric-blue: #00D4FF;
+            --nebula-pink: #FF6B9D;
+            --cosmic-purple: #C77DFF;
+            --solar-orange: #FFB86C;
+            --comet-cyan: #00F5FF;
+            --stardust-white: #F8F9FA;
+            --void-black: #000000;
+            --asteroid-gray: #6C757D;
+            --galaxy-green: #00FF88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--deep-space-blue) 0%, var(--moonlit-blue) 100%);
+            color: var(--stardust-white);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            background: rgba(11, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--electric-blue);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            color: var(--stardust-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--electric-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            border-color: transparent;
+            color: var(--deep-space-blue);
+        }
+
+        .user-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-greeting {
+            color: var(--stardust-white);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 107, 157, 0.2);
+            border: 1px solid var(--nebula-pink);
+            border-radius: 20px;
+            color: var(--nebula-pink);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn:hover {
+            background: var(--nebula-pink);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--electric-blue), var(--comet-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--asteroid-gray);
+            font-size: 1rem;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tool-card {
+            background: rgba(23, 42, 69, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--electric-blue);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.15);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon.blue { background: rgba(0, 212, 255, 0.15); color: var(--electric-blue); }
+        .tool-icon.green { background: rgba(0, 255, 136, 0.15); color: var(--galaxy-green); }
+        .tool-icon.orange { background: rgba(255, 184, 108, 0.15); color: var(--solar-orange); }
+        .tool-icon.purple { background: rgba(199, 125, 255, 0.15); color: var(--cosmic-purple); }
+        .tool-icon.pink { background: rgba(255, 107, 157, 0.15); color: var(--nebula-pink); }
+        .tool-icon.cyan { background: rgba(0, 245, 255, 0.15); color: var(--comet-cyan); }
+
+        .tool-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-description {
+            color: var(--asteroid-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag-blue { background: rgba(0, 212, 255, 0.15); color: var(--electric-blue); }
+        .tag-green { background: rgba(0, 255, 136, 0.15); color: var(--galaxy-green); }
+        .tag-orange { background: rgba(255, 184, 108, 0.15); color: var(--solar-orange); }
+        .tag-purple { background: rgba(199, 125, 255, 0.15); color: var(--cosmic-purple); }
+
+        /* Quick Links Section */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--stardust-white);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .link-card {
+            background: rgba(23, 42, 69, 0.4);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--stardust-white);
+        }
+
+        .link-card:hover {
+            background: rgba(23, 42, 69, 0.7);
+            border-color: var(--electric-blue);
+            transform: translateX(4px);
+        }
+
+        .link-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--electric-blue);
+            flex-shrink: 0;
+        }
+
+        .link-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .link-info p {
+            font-size: 0.8rem;
+            color: var(--asteroid-gray);
+        }
+
+        /* Deadlines Section */
+        .deadlines-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .deadline-item {
+            background: rgba(23, 42, 69, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .deadline-item:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .deadline-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .deadline-date {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .deadline-date .day {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--electric-blue);
+        }
+
+        .deadline-date .month {
+            font-size: 0.75rem;
+            color: var(--asteroid-gray);
+            text-transform: uppercase;
+        }
+
+        .deadline-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .deadline-info p {
+            font-size: 0.8rem;
+            color: var(--asteroid-gray);
+        }
+
+        .deadline-status {
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--electric-blue);
+        }
+
+        .status-soon {
+            background: rgba(255, 184, 108, 0.15);
+            color: var(--solar-orange);
+        }
+
+        .status-urgent {
+            background: rgba(255, 107, 157, 0.15);
+            color: var(--nebula-pink);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="modules.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CA Professional Learning Platform
+            </a>
+            <nav>
+                <a href="modules.html" class="nav-tab">
+                    <i class="fas fa-book"></i> Modules
+                </a>
+                <a href="addition1.html" class="nav-tab active">
+                    <i class="fas fa-toolbox"></i> Resources & Tools
+                </a>
+            </nav>
+            <div class="user-bar">
+                <span class="user-greeting"><i class="fas fa-user-circle"></i> <span id="userNameDisplay">User</span></span>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">Resources & Tools</h1>
+            <p class="page-subtitle">Essential tools, calculators, and quick-access resources for CA professionals</p>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon blue">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="tool-title">GST Calculator</h3>
+                <p class="tool-description">Calculate CGST, SGST, and IGST amounts with reverse charge mechanism support.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-blue">GST</span>
+                    <span class="tag tag-green">Calculator</span>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon green">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <h3 class="tool-title">Income Tax Estimator</h3>
+                <p class="tool-description">Estimate income tax liability under both old and new tax regimes with deductions.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-blue">Income Tax</span>
+                    <span class="tag tag-green">Calculator</span>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon orange">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3 class="tool-title">Compliance Calendar</h3>
+                <p class="tool-description">Track filing deadlines for GST returns, TDS, advance tax, and annual filings.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-orange">Deadlines</span>
+                    <span class="tag tag-purple">Compliance</span>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon purple">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3 class="tool-title">HSN/SAC Code Finder</h3>
+                <p class="tool-description">Search and find correct HSN codes for goods and SAC codes for services.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-blue">GST</span>
+                    <span class="tag tag-purple">Reference</span>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon pink">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3 class="tool-title">Interest Calculator</h3>
+                <p class="tool-description">Calculate interest under Section 234A, 234B, 234C and late filing fees.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-blue">Income Tax</span>
+                    <span class="tag tag-orange">Penalty</span>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon cyan">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="tool-title">MCA Fee Calculator</h3>
+                <p class="tool-description">Calculate ROC filing fees, stamp duty, and additional fees for late filings.</p>
+                <div class="tool-tags">
+                    <span class="tag tag-purple">MCA</span>
+                    <span class="tag tag-green">Calculator</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links Section -->
+        <h2 class="section-title"><i class="fas fa-link"></i> Quick Links</h2>
+        <div class="links-grid">
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-globe"></i></div>
+                <div class="link-info">
+                    <h4>GST Portal</h4>
+                    <p>Access the official GST portal for filing and compliance</p>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-landmark"></i></div>
+                <div class="link-info">
+                    <h4>Income Tax e-Filing</h4>
+                    <p>Government e-filing portal for income tax returns</p>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-university"></i></div>
+                <div class="link-info">
+                    <h4>MCA Portal</h4>
+                    <p>Ministry of Corporate Affairs filings and compliance</p>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="link-info">
+                    <h4>SEBI</h4>
+                    <p>Securities and Exchange Board of India regulations</p>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-balance-scale"></i></div>
+                <div class="link-info">
+                    <h4>RBI</h4>
+                    <p>Reserve Bank of India circulars and FEMA updates</p>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fas fa-book-open"></i></div>
+                <div class="link-info">
+                    <h4>ICAI</h4>
+                    <p>Institute of Chartered Accountants of India resources</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Upcoming Deadlines Section -->
+        <h2 class="section-title"><i class="fas fa-clock"></i> Upcoming Deadlines</h2>
+        <div class="deadlines-list">
+            <div class="deadline-item">
+                <div class="deadline-left">
+                    <div class="deadline-date">
+                        <div class="day">11</div>
+                        <div class="month">Mar</div>
+                    </div>
+                    <div class="deadline-info">
+                        <h4>GSTR-1 Filing</h4>
+                        <p>Monthly return for outward supplies - February 2026</p>
+                    </div>
+                </div>
+                <span class="deadline-status status-soon">Due Soon</span>
+            </div>
+
+            <div class="deadline-item">
+                <div class="deadline-left">
+                    <div class="deadline-date">
+                        <div class="day">15</div>
+                        <div class="month">Mar</div>
+                    </div>
+                    <div class="deadline-info">
+                        <h4>Advance Tax - 4th Instalment</h4>
+                        <p>Final instalment of advance tax for FY 2025-26</p>
+                    </div>
+                </div>
+                <span class="deadline-status status-upcoming">Upcoming</span>
+            </div>
+
+            <div class="deadline-item">
+                <div class="deadline-left">
+                    <div class="deadline-date">
+                        <div class="day">20</div>
+                        <div class="month">Mar</div>
+                    </div>
+                    <div class="deadline-info">
+                        <h4>GSTR-3B Filing</h4>
+                        <p>Monthly summary return - February 2026</p>
+                    </div>
+                </div>
+                <span class="deadline-status status-upcoming">Upcoming</span>
+            </div>
+
+            <div class="deadline-item">
+                <div class="deadline-left">
+                    <div class="deadline-date">
+                        <div class="day">31</div>
+                        <div class="month">Mar</div>
+                    </div>
+                    <div class="deadline-info">
+                        <h4>Financial Year End</h4>
+                        <p>Last date for tax-saving investments and FY 2025-26 closure</p>
+                    </div>
+                </div>
+                <span class="deadline-status status-urgent">Urgent</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Auth Guard
+        (function enforceAuth() {
+            const raw = localStorage.getItem('caKnowledgeOS_user') || sessionStorage.getItem('caKnowledgeOS_user');
+            if (!raw) {
+                window.location.replace('index.html');
+                return;
+            }
+            try {
+                const user = JSON.parse(raw);
+                if (!user || !user.isLoggedIn) {
+                    window.location.replace('index.html');
+                    return;
+                }
+                const nameEl = document.getElementById('userNameDisplay');
+                if (nameEl) nameEl.textContent = user.name || user.email || 'User';
+            } catch (e) {
+                window.location.replace('index.html');
+            }
+        })();
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            localStorage.removeItem('caKnowledgeOS_user');
+            sessionStorage.removeItem('caKnowledgeOS_user');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
